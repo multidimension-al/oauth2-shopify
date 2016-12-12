@@ -3,11 +3,9 @@
 [![Latest Stable Version](https://poser.pugx.org/multidimensional/oauth2-shopify/v/stable)](https://packagist.org/packages/multidimensional/oauth2-shopify)
 [![License](https://poser.pugx.org/multidimensional/oauth2-shopify/license)](https://packagist.org/packages/multidimensional/oauth2-shopify)
 [![Build Status](https://travis-ci.org/multidimensional/oauth2-shopify.svg?branch=master)](https://travis-ci.org/multidimensional/oauth2-shopify)
-[![Code Coverage](https://scrutinizer-ci.com/g/multidimensional/oauth2-shopify/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/multidimensional/oauth2-shopify/?branch=master)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/multidimensional/oauth2-shopify/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/multidimensional/oauth2-shopify/?branch=master)
 [![Total Downloads](https://poser.pugx.org/multidimensional/oauth2-shopify/downloads)](https://packagist.org/packages/multidimensional/oauth2-shopify)
 
-This package provides Harvest's OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
+This package provides Shopify's OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
 
 ## Installation
 
