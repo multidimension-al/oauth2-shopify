@@ -15,7 +15,7 @@ To install, use composer:
 composer require multidimensional/oauth2-shopify
 ```
 
-## Usage
+### Usage
 
 Usage is the same as The League's OAuth client, using `\Multidimensional\OAuth2\Client\Provider\Shopify` as the provider.
 
@@ -68,6 +68,33 @@ if (!isset($_GET['code'])) {
     echo $token->getToken();
 }
 ```
+
+### Managing Scopes
+
+When creating your Shopify authorization URL, you can specify the state and scopes your application may authorize.
+
+```php
+$options = [
+    'state' => 'OPTIONAL_CUSTOM_CONFIGURED_STATE',
+    'scope' => ['read_orders','write_orders'] // array or string
+];
+
+$authorizationUrl = $provider->getAuthorizationUrl($options);
+```
+If neither are defined, the provider will utilize internal defaults.
+
+At the time of authoring this documentation, the [following scopes are available](https://help.shopify.com/api/guides/authentication/oauth#scopes).
+
+- read_content, write_content- Access to Article, Blog, Comment, Page, and Redirect.
+- read_themes, write_themes - Access to Asset and Theme.
+- read_products, write_products - Access to Product, product variant, Product Image, Collect, Custom Collection, and Smart Collection.
+- read_customers, write_customers - Access to Customer and Saved Search.
+- read_orders, write_orders - Access to Order, Transaction and Fulfillment.
+- read_script_tags, write_script_tags - Access to Script Tag.
+- read_fulfillments, write_fulfillments - Access to Fulfillment Service.
+- read_shipping, write_shipping - Access to Carrier Service.
+- read_analytics - Access to Analytics API.
+- read_users, write_users - Access to User SHOPIFY PLUS.
 
 ## Testing
 
