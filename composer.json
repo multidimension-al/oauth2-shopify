@@ -1,0 +1,42 @@
+{
+	"name": "multidimensional/oauth2-shopify",
+	"description": "Shopify OAuth 2.0 Client Provider for The PHP League OAuth2-Client",
+	"version": "1.0.0-dev",
+	"license": "MIT",
+	"authors": [{
+		"name": "multidimension.al",
+		"homepage": "https://multidimension.al",
+		"role": "Developer"
+	}, {
+		"name": "Nile Suan",
+		"email": "nilesuan@gmail.com",
+		"homepage": "https://github.com/nilesuan",
+		"role": "Developer"
+	}],
+	"keywords": [
+		"oauth",
+		"oauth2",
+		"client",
+		"authorization",
+		"shopify"
+	],
+	"require": {
+		"php": ">=5.5.0",
+		"league/oauth2-client": "~1.2"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "~4.0",
+		"mockery/mockery": "~0.9",
+		"squizlabs/php_codesniffer": "~2.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Multidimensional\\OAuth2\\Client\\": "src/"
+		}
+	},
+	"autoload-dev": {
+		"psr-4": {
+			"Multidimensional\\OAuth2\\Client\\Test\\": "tests/src/"
+		}
+	}
+}
