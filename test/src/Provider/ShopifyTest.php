@@ -1,0 +1,152 @@
+<?php
+
+namespace Multidimensional\OAuth2\Client\Test\Provider;
+
+use Multidimensional\OAuth2\Client\Provider\Shopify as ShopifyProvider;
+
+use Mockery as m;
+
+class ShopifyTest extends \PHPUnit_Framework_TestCase
+{
+    protected $provider;
+
+    protected function setUp()
+    {
+        $this->provider = new ShopifyProvider([
+            'clientId' => 'mock_client_id',
+            'clientSecret' => 'mock_secret',
+            'redirectUri' => 'none',
+            'shop' => 'mock_domain',
+            'accessType' => 'online'
+        ]);
+    }
+
+    public function tearDown()
+    {
+        m::close();
+        parent::tearDown();
+    }
+
+    public function testAuthorizationUrl()
+    {
+        $url = $this->provider->getAuthorizationUrl();
+        $uri = parse_url($url);
+        parse_str($uri['query'], $query);
+
+        $this->assertEquals('/admin/oauth/authorize', $uri['path']);
+
+        $this->assertArrayHasKey('client_id', $query);
+        $this->assertArrayHasKey('redirect_uri', $query);
+        $this->assertArrayHasKey('state', $query);
+        $this->assertArrayHasKey('scope', $query);
+        $this->assertArrayHasKey('response_type', $query);
+        $this->assertArrayHasKey('approval_prompt', $query);
+        $this->assertArrayHasKey('option', $query);
+
+        $this->assertEquals('per-user', $query['option']);
+
+        $this->assertContains('read_content', $query['scope']);
+        $this->assertContains('read_products', $query['scope']);
+
+        $this->assertAttributeNotEmpty('state', $this->provider);
+    }
+
+    public function testBaseAccessTokenUrl()
+    {
+        $url = $this->provider->getBaseAccessTokenUrl([]);
+        $uri = parse_url($url);
+
+        $this->assertEquals('/admin/oauth/access_token', $uri['path']);
+    }
+
+    public function testResourceOwnerDetailsUrl()
+    {
+        $token = m::mock('League\OAuth2\Client\Token\AccessToken', [['access_token' => 'mock_access_token']]);
+
+        $url = $this->provider->getResourceOwnerDetailsUrl($token);
+        $uri = parse_url($url);
+
+        $this->assertEquals('/admin/shop.json', $uri['path']);
+        $this->assertNotContains('mock_access_token', $url);
+
+    }
+
+    public function testUserData()
+    {
+        $response = json_decode('{
+          "shop": {
+            "id": 12345,
+            "name": "mock_name",
+            "email": "mock_email",
+            "domain": "mock_store.myshopify.com",
+            "created_at": "",
+            "province": "",
+            "country": "",
+            "address1": "",
+            "zip": "",
+            "city": "",
+            "source": "",
+            "phone": "",
+            "updated_at": "",
+            "customer_email": null,
+            "latitude": 0,
+            "longitude": 0,
+            "primary_location_id": 0,
+            "primary_locale": "en",
+            "address2": null,
+            "country_code": "US",
+            "country_name": "mock_country_name",
+            "currency": "USD",
+            "timezone": "(GMT-05:00) Eastern Time (US & Canada)",
+            "iana_timezone": "America/New_York",
+            "shop_owner": "mock_shop_owner",
+            "money_format": "${{amount}}",
+            "money_with_currency_format": "${{amount}} USD",
+            "province_code": null,
+            "taxes_included": false,
+            "tax_shipping": null,
+            "county_taxes": true,
+            "plan_display_name": "affiliate",
+            "plan_name": "affiliate",
+            "has_discounts": false,
+            "has_gift_cards": false,
+            "myshopify_domain": "example.myshopify.com",
+            "google_apps_domain": null,
+            "google_apps_login_enabled": null,
+            "money_in_emails_format": "${{amount}}",
+            "money_with_currency_in_emails_format": "${{amount}} USD",
+            "eligible_for_payments": false,
+            "requires_extra_payments_agreement": false,
+            "password_enabled": true,
+            "has_storefront": true,
+            "eligible_for_card_reader_giveaway": false,
+            "finances": true,
+            "setup_required": false,
+            "force_ssl": true
+          }
+        }', true);
+
+        $provider = m::mock('Multidimensional\OAuth2\Client\Provider\Shopify[fetchResourceOwnerDetails]')
+            ->shouldAllowMockingProtectedMethods();
+
+        $provider->shouldReceive('fetchResourceOwnerDetails')
+            ->times(1)
+            ->andReturn($response);
+
+        $token = m::mock('League\OAuth2\Client\Token\AccessToken');
+        $shop = $provider->getResourceOwner($token);
+
+        $this->assertInstanceOf('League\OAuth2\Client\Provider\ResourceOwnerInterface', $shop);
+
+        $this->assertEquals(12345, $shop->getId());
+        $this->assertEquals('mock_name', $shop->getName());
+        $this->assertEquals('mock_email', $shop->getEmail());
+        $this->assertEquals('mock_store.myshopify.com', $shop->getDomain());
+        $this->assertEquals('mock_country_name', $shop->getCountry());
+        $this->assertEquals('mock_shop_owner', $shop->getShopOwner());
+
+        $shop = $shop->toArray();
+
+        $this->assertArrayHasKey('shop', $shop);
+    }
+}

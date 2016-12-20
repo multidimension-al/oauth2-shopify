@@ -25,10 +25,14 @@ Usage is the same as The League's OAuth client, using `\Multidimensional\OAuth2\
 $provider = new Multidimensional\OAuth2\Client\Provider\Shopify([
     'clientId'          => '{shopify-app-id}',
     'clientSecret'      => '{shopify-app-secret}',
-    'redirectUri'       => 'https://example.com/callback-url'
+    'shop'              => 'example.myshopify.com',
+    'redirectUri'       => 'https://example.com/callback-url',
 ]);
 
 if (!isset($_GET['code'])) {
+    $options = [
+        'scope' => ['read_orders','write_orders'] // array or string
+    ];
 
     // If we don't have an authorization code then get one
     $authUrl = $provider->getAuthorizationUrl();
@@ -38,10 +42,8 @@ if (!isset($_GET['code'])) {
 
 // Check given state against previously stored one to mitigate CSRF attack
 } elseif (empty($_GET['state']) || ($_GET['state'] !== $_SESSION['oauth2state'])) {
-
     unset($_SESSION['oauth2state']);
     exit('Invalid state');
-
 } else {
 
     // Try to get an access token (using the authorization code grant)
