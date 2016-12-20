@@ -1,4 +1,5 @@
-
-composer.lock
-
+build/
 vendor/
+
+*.clover
+composer.lock

@@ -2,7 +2,6 @@
 
 namespace Multidimensional\OAuth2\Client\Provider;
 
-
 use League\OAuth2\Client\Provider\AbstractProvider;
 use League\OAuth2\Client\Provider\Exception\IdentityProviderException;
 use League\OAuth2\Client\Token\AccessToken;
@@ -43,7 +42,7 @@ class Shopify extends AbstractProvider
         return 'https://'.$this->shop.'/admin/shop.json';
     }
 
-    protected function getAuthorizationParameters(array $options)
+    public function getAuthorizationParameters(array $options)
     {
         $option = (!empty($this->accessType) && $this->accessType != 'offline') ? 'per-user' : null;
         $params = array_merge(
@@ -56,7 +55,7 @@ class Shopify extends AbstractProvider
         return $params;
     }
 
-    protected function getDefaultScopes()
+    public function getDefaultScopes()
     {
         return [
             'read_content',
@@ -64,25 +63,17 @@ class Shopify extends AbstractProvider
         ];
     }
 
-    protected function getScopeSeparator()
+    public function getScopeSeparator()
     {
         return ',';
     }
 
-    protected function checkResponse(ResponseInterface $response, $data)
+    public function checkResponse(ResponseInterface $response, $data)
     {
+        if (!empty($data['errors']))
+            throw new IdentityProviderException($data['errors'], 0, $data);
 
-        if (!empty($data['errors'])) {
-            $code  = 0;
-            $error = $data['errors'];
-
-            if (is_array($error)) {
-                $code  = $error['code'];
-                $error = $error['message'];
-            }
-
-            throw new IdentityProviderException($error, $code, $data);
-        }
+        return $data;
     }
 
     protected function createResourceOwner(array $response, AccessToken $token)
@@ -102,7 +93,7 @@ class Shopify extends AbstractProvider
      * @param  mixed|null $token Either a string or an access token instance
      * @return array
      */
-    protected function getAuthorizationHeaders($token = null)
+    public function getAuthorizationHeaders($token = null)
     {
         return array('X-Shopify-Access-Token' => $token->getToken());
     }
