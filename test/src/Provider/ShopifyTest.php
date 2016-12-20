@@ -61,6 +61,14 @@ class ShopifyTest extends \PHPUnit_Framework_TestCase
 
     public function testResourceOwnerDetailsUrl()
     {
+        $parameters = $this->provider->getAuthorizationParameters([]);
+
+        $this->assertEquals('per-user', $parameters['option']);
+
+    }
+
+    public function testAuthorizationParameters()
+    {
         $token = m::mock('League\OAuth2\Client\Token\AccessToken', [['access_token' => 'mock_access_token']]);
 
         $url = $this->provider->getResourceOwnerDetailsUrl($token);
@@ -71,7 +79,54 @@ class ShopifyTest extends \PHPUnit_Framework_TestCase
 
     }
 
-    public function testUserData()
+    public function testDefaultScopes()
+    {
+        $scopes = $this->provider->getDefaultScopes();
+
+        $this->assertContains('read_content', $scopes);
+        $this->assertContains('read_products', $scopes);
+
+    }
+
+    public function testScopeSeparator()
+    {
+        $separator = $this->provider->getScopeSeparator();
+
+        $this->assertEquals(',', $separator);
+
+    }
+
+    public function testcheckResponse() {
+        $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
+        $postResponse->shouldReceive('getBody')->andReturn('{"shop": { "id": 12345, "name": "mock_name", "email": "mock_email", "domain": "mock_store.myshopify.com"}}');
+        $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
+        $postResponse->shouldReceive('getStatusCode')->andReturn(200);
+        
+        $checkedresponse = $this->provider->checkResponse($postResponse, '{"shop": { "id": 12345, "name": "mock_name", "email": "mock_email", "domain": "mock_store.myshopify.com"}}');
+
+    }
+
+    /**
+     * @expectedException League\OAuth2\Client\Provider\Exception\IdentityProviderException
+     **/
+    public function testcheckResponseException() {
+        $status = rand(400,500);
+        $postResponse = m::mock('Psr\Http\Message\ResponseInterface');
+        $postResponse->shouldReceive('getBody')->andReturn('{"errors":"[API] Invalid API key or access token (unrecognized login or wrong password)"}');
+        $postResponse->shouldReceive('getHeader')->andReturn(['content-type' => 'json']);
+        $postResponse->shouldReceive('getStatusCode')->andReturn($status);
+
+        $client = m::mock('GuzzleHttp\ClientInterface');
+        $client->shouldReceive('send')
+            ->times(1)
+            ->andReturn($postResponse);
+
+        $this->provider->setHttpClient($client);
+        $token = $this->provider->getAccessToken('authorization_code', ['code' => 'mock_authorization_code']);
+
+    }
+
+    public function testcreateResourceOwner()
     {
         $response = json_decode('{
           "shop": {
@@ -148,5 +203,21 @@ class ShopifyTest extends \PHPUnit_Framework_TestCase
         $shop = $shop->toArray();
 
         $this->assertArrayHasKey('shop', $shop);
+    }
+
+    public function testAuthorizationHeaders()
+    {
+
+        $token = m::mock('League\OAuth2\Client\Token\AccessToken', [['access_token' => 'mock_access_token']]);
+
+        $token->shouldReceive('getToken')
+            ->times(1)
+            ->andReturn('mock_token');
+
+        $headers = $this->provider->getAuthorizationHeaders($token);
+
+        $this->assertArrayHasKey('X-Shopify-Access-Token', $headers);
+        $this->assertEquals('mock_token', $headers['X-Shopify-Access-Token']);
+
     }
 }
