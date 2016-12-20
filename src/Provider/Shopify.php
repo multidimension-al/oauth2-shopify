@@ -70,8 +70,9 @@ class Shopify extends AbstractProvider
 
     public function checkResponse(ResponseInterface $response, $data)
     {
-        if (!empty($data['errors']))
+        if (!empty($data['errors'])) {
             throw new IdentityProviderException($data['errors'], 0, $data);
+        }
 
         return $data;
     }
