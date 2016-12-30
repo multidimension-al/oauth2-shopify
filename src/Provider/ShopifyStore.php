@@ -24,7 +24,7 @@ class ShopifyStore implements ResourceOwnerInterface
 
     public function getId()
     {
-        return $this->response['shop']['id'];
+        return $this->getValueByKey($this->response, 'shop.id');
     }
 
     /**
@@ -34,7 +34,7 @@ class ShopifyStore implements ResourceOwnerInterface
      */
     public function getName()
     {
-        return $this->response['shop']['name'];
+        return $this->getValueByKey($this->response, 'shop.name');
     }
 
     /**
@@ -44,7 +44,7 @@ class ShopifyStore implements ResourceOwnerInterface
      */
     public function getEmail()
     {
-        return $this->response['shop']['email'];
+        return $this->getValueByKey($this->response, 'shop.email');
     }
 
     /**
@@ -54,7 +54,7 @@ class ShopifyStore implements ResourceOwnerInterface
      */
     public function getDomain()
     {
-        return $this->response['shop']['domain'];
+        return $this->getValueByKey($this->response, 'shop.domain');
     }
 
     /**
@@ -64,7 +64,7 @@ class ShopifyStore implements ResourceOwnerInterface
      */
     public function getCountry()
     {
-        return $this->response['shop']['country_name'];
+        return $this->getValueByKey($this->response, 'shop.country_name');
     }
 
     /**
@@ -74,7 +74,7 @@ class ShopifyStore implements ResourceOwnerInterface
      */
     public function getShopOwner()
     {
-        return $this->response['shop']['shop_owner'];
+        return $this->getValueByKey($this->response, 'shop.shop_owner');
     }
 
     /**
