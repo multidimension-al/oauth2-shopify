@@ -84,6 +84,6 @@ class ShopifyStore implements ResourceOwnerInterface
      */
     public function toArray()
     {
-        return $this->response;
+        return $this->getValueByKey($this->response, 'shop');
     }
 }

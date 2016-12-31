@@ -202,7 +202,8 @@ class ShopifyTest extends \PHPUnit_Framework_TestCase
 
         $shop = $shop->toArray();
 
-        $this->assertArrayHasKey('shop', $shop);
+        $this->assertInternalType('array', $shop);
+        $this->assertEquals(48, count($shop));
     }
 
     public function testAuthorizationHeaders()
