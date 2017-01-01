@@ -108,15 +108,15 @@ $ ./vendor/bin/phpunit
 
 ## Contributing
 
-Please see [CONTRIBUTING](https://github.com/multidimensional/oauth2-shopify/blob/master/CONTRIBUTING.md) for details.
+Please see [CONTRIBUTING](https://github.com/multidimension-al/oauth2-shopify/blob/master/CONTRIBUTING.md) for details.
 
 
 ## Credits
 
 - [Nile Suan](https://github.com/nilesuan)
-- [All Contributors](https://github.com/multidimensional/oauth2-shopify/contributors)
+- [All Contributors](https://github.com/multidimension-al/oauth2-shopify/contributors)
 
 
 ## License
 
-The MIT License (MIT). Please see [License File](https://github.com/multidimensional/oauth2-shopify/blob/master/LICENSE) for more information.
+The MIT License (MIT). Please see [License File](https://github.com/multidimension-al/oauth2-shopify/blob/master/LICENSE) for more information.
