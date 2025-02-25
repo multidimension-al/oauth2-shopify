@@ -42,10 +42,8 @@ jobs:
         env:
           SCRUTINIZER_API_TOKEN: ${{ secrets.SCRUTINIZER_API_TOKEN }}
           BRANCH_NAME: ${GITHUB_REF#refs/heads/}
-          GITHUB_ORG: "multidimension-al"
-          REPO_NAME: "oauth2-shopify"
         run: |
-          curl -X POST https://scrutinizer-ci.com/api/repositories/g/$GITHUB_ORG/$REPO_NAME/builds \
+          curl -X POST https://scrutinizer-ci.com/api/repositories/g/multidimension-al/oauth2-shopify/builds \
           -H "Authorization: Bearer $SCRUTINIZER_API_TOKEN" \
           -H "Content-Type: application/json" \
           -d "{\"branch\":\"$BRANCH_NAME\"}"
