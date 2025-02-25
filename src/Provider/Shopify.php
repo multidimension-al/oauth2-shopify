@@ -9,8 +9,7 @@ use Psr\Http\Message\ResponseInterface;
 
 class Shopify extends AbstractProvider
 {
-
-    const ACCESS_TOKEN_RESOURCE_OWNER_ID = 'id';
+    public const ACCESS_TOKEN_RESOURCE_OWNER_ID = 'id';
 
     /**
      * @var string This will be prepended to the base uri.
@@ -26,17 +25,17 @@ class Shopify extends AbstractProvider
 
     public function getBaseAuthorizationUrl()
     {
-        return 'https://'.$this->shop.'/admin/oauth/authorize';
+        return 'https://' . $this->shop . '/admin/oauth/authorize';
     }
 
     public function getBaseAccessTokenUrl(array $params)
     {
-        return 'https://'.$this->shop.'/admin/oauth/access_token';
+        return 'https://' . $this->shop . '/admin/oauth/access_token';
     }
 
     public function getResourceOwnerDetailsUrl(AccessToken $token)
     {
-        return 'https://'.$this->shop.'/admin/shop.json';
+        return 'https://' . $this->shop . '/admin/shop.json';
     }
 
     public function getAuthorizationParameters(array $options)

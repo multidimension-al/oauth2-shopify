@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
-         backupStaticAttributes="false"
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
          bootstrap="vendor/autoload.php"
-         colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false"
->
-    <logging>
-        <log type="coverage-html"
-                target="./build/coverage/html"
-                charset="UTF-8"
-                highlight="false"
-                lowUpperBound="35"
-                highLowerBound="70"/>
-          <log type="coverage-clover"
-                target="./build/coverage/log/coverage.xml"/>
-    </logging>
+         cacheDirectory=".phpunit.cache"
+         executionOrder="depends,defects"
+         beStrictAboutOutputDuringTests="true"
+         displayDetailsOnPhpunitDeprecations="true"
+         failOnPhpunitDeprecation="true"
+         failOnRisky="true"
+         failOnWarning="true"
+         colors="true">
     <testsuites>
-        <testsuite name="Package Test Suite">
-            <directory suffix=".php">./test/</directory>
+        <testsuite name="default">
+            <directory>test</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <whitelist>
-            <directory suffix=".php">./</directory>
-            <exclude>
-                <directory suffix=".php">./vendor</directory>
-                <directory suffix=".php">./test</directory>
-            </exclude>
-        </whitelist>
-    </filter>
+
+    <source ignoreIndirectDeprecations="true" restrictNotices="true" restrictWarnings="true">
+        <include>
+            <directory>src</directory>
+        </include>
+    </source>
+
+    <php>
+        <ini name="serialize_precision" value="14"/>
+    </php>
+
+    <coverage>
+        <report>
+            <html outputDirectory="./build/coverage/html"
+                  lowUpperBound="35"
+                  highLowerBound="70"/>
+            <clover outputFile="./build/coverage/log/coverage.xml"/>
+        </report>
+    </coverage>
 </phpunit>

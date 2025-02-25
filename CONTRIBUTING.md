@@ -29,14 +29,16 @@ We accept contributions via Pull Requests on [Github](https://github.com/multidi
 ## Running Tests
 
 ``` bash
-$ ./vendor/bin/phpunit
+make composer-install
+make phpcs
+make phpstan
 ```
 
 
 ## Running PHP Code Sniffer
 
 ``` bash
-$ ./vendor/bin/phpcs src --standard=psr2 -sp
+make phpcs
 ```
 
 **Happy coding**!

@@ -103,7 +103,8 @@ At the time of authoring this documentation, the [following scopes are available
 ## Testing
 
 ``` bash
-$ ./vendor/bin/phpunit
+make composer-install
+make phpunit
 ```
 
 ## Contributing
