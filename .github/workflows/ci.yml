@@ -16,7 +16,10 @@ jobs:
         php-version: [ '8.2', '8.3' ]
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 
+        with:
+          # Fetch 10 commits or Scrutinizer will throw ("Failed to retrieve commit parents...")
+          fetch-depth: 10
 
       - name: Set up PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
@@ -38,12 +41,9 @@ jobs:
       - name: Upload code coverage to Codecov
         uses: codecov/codecov-action@v5.3.1
 
-      - name: Trigger Scrutinizer Analysis
-        env:
-          SCRUTINIZER_API_TOKEN: ${{ secrets.SCRUTINIZER_API_TOKEN }}
-          BRANCH_NAME: ${GITHUB_REF#refs/heads/}
-        run: |
-          curl -X POST https://scrutinizer-ci.com/api/repositories/g/multidimension-al/oauth2-shopify/builds \
-          -H "Authorization: Bearer $SCRUTINIZER_API_TOKEN" \
-          -H "Content-Type: application/json" \
-          -d "{\"branch\":\"$BRANCH_NAME\"}"
+      - name: Upload Scrutinizer coverage
+        uses: sudo-bot/action-scrutinizer@latest
+        # Do not run this step on forked versions of the main repository (example: contributor forks)
+        if: github.repository == 'multidimension-al/oauth2-shopify'
+        with:
+          cli-args: "--format=php-clover build/logs/clover.xml --revision=${{ github.event.pull_request.head.sha || github.sha }}"
