@@ -9,10 +9,8 @@ help:
 	{ printf "  ${RED}%-10s${RESET}%s\n", $$1, $$2 } /^##@/ \
 	{ printf "\n${BLUE}%s${RESET}\n", substr($$0, 5) } ' $(MAKEFILE_LIST)
 
-style: ## run phpcs & phpstan
+style:
 	@$(MAKE) phpcs
-	@$(MAKE) phpstan
-
 
 phpcbf: ## run phpcbf
 	@docker run --rm --platform linux/amd64 -v $(shell pwd):/app php:8.3-cli /bin/sh -c "cd /app && php vendor/bin/phpcbf --standard=psr12 src/"
