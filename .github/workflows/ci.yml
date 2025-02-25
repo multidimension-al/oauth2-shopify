@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: PHP ${{ matrix.php-version }}
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version: [ '8.1', '8.2', '8.3', 'hhvm' ]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up PHP ${{ matrix.php-version }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+
+      - name: Validate composer.json and composer.lock
+        run: composer validate --no-check-all --strict
+
+      - name: Install dependencies
+        run: composer install --no-interaction --prefer-source --dev
+
+      - name: Run PHP Code Sniffer (PSR12)
+        if: matrix.php-version != 'hhvm'
+        run: ./vendor/bin/phpcs --standard=psr12 src/
+
+      - name: Run PHPUnit tests with coverage
+        run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+
+      - name: Upload code coverage to Scrutinizer
+        if: matrix.php-version != 'hhvm'
+        run: |
+          wget https://scrutinizer-ci.com/ocular.phar
+          php ocular.phar code-coverage:upload --format=php-clover coverage.clover
