@@ -3,7 +3,7 @@
 [![Latest Stable Version](https://poser.pugx.org/multidimensional/oauth2-shopify/v/stable)](https://packagist.org/packages/multidimensional/oauth2-shopify)
 [![Total Downloads](https://poser.pugx.org/multidimensional/oauth2-shopify/downloads)](https://packagist.org/packages/multidimensional/oauth2-shopify)
 [![License](https://poser.pugx.org/multidimensional/oauth2-shopify/license)](https://packagist.org/packages/multidimensional/oauth2-shopify)
-[![Build Status](https://travis-ci.org/multidimension-al/oauth2-shopify.svg?branch=master)](https://travis-ci.org/multidimension-al/oauth2-shopify)
+[![CI](https://github.com/multidimension-al/oauth2-shopify/actions/workflows/ci.yml/badge.svg)](https://github.com/multidimension-al/oauth2-shopify/actions/workflows/ci.yml)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/multidimension-al/oauth2-shopify/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/multidimension-al/oauth2-shopify/?branch=master)
 
 
