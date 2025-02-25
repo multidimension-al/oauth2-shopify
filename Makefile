@@ -18,7 +18,7 @@ phpcbf: ## run phpcbf
 	@docker run --rm --platform linux/amd64 -v $(shell pwd):/app php:8.3-cli /bin/sh -c "cd /app && php vendor/bin/phpcbf --standard=psr12 src/"
 
 phpunit: ## run phpstan
-	@docker run --rm --platform linux/amd64 -v $(shell pwd):/app php:8.3-cli /bin/sh -c "cd /app && php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover"
+	@docker run --rm --platform linux/amd64 -v $(shell pwd):/app jitesoft/phpunit:8.3 /bin/sh -c "cd /app && php vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover"
 
 phpcs: ## run phpcs
 	@docker run --rm --platform linux/amd64 -v $(shell pwd):/app php:8.3-cli /bin/sh -c "cd /app && php vendor/bin/phpcs --standard=psr12 src/"
