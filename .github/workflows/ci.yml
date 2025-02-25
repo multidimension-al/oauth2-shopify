@@ -46,4 +46,4 @@ jobs:
         # Do not run this step on forked versions of the main repository (example: contributor forks)
         if: github.repository == 'multidimension-al/oauth2-shopify'
         with:
-          cli-args: "--format=php-clover build/logs/clover.xml --revision=${{ github.event.pull_request.head.sha || github.sha }}"
+          cli-args: "--format=php-clover coverage.clover --revision=${{ github.event.pull_request.head.sha || github.sha }}"
