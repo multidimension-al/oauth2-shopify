@@ -115,6 +115,7 @@ Please see [CONTRIBUTING](https://github.com/multidimension-al/oauth2-shopify/bl
 ## Credits
 
 - [Nile Suan](https://github.com/nilesuan)
+- [arnaudbagnis](https://github.com/arnaudbagnis)
 - [All Contributors](https://github.com/multidimension-al/oauth2-shopify/contributors)
 
 
