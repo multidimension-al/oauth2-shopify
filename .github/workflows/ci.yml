@@ -42,4 +42,11 @@ jobs:
         uses: codecov/codecov-action@v5.3.1
         with:
           token: ${{ secrets.CODE_COV_TOKEN }}
-          files: coverage.clover,junit.xml
+          files: coverage.clover
+
+      - name: Upload test results to Codecov
+        if: ${{ !cancelled() }}
+        uses: codecov/test-results-action@v1
+        with:
+          token: ${{ secrets.CODE_COV_TOKEN }}
+          files: junit.xml
