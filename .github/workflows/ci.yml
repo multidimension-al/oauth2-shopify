@@ -36,17 +36,10 @@ jobs:
         run: ./vendor/bin/phpcs --standard=psr12 src/
 
       - name: Run PHPUnit tests with coverage
-        run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover
+        run: ./vendor/bin/phpunit --coverage-text --coverage-clover=coverage.clover --log-junit junit.xml
 
       - name: Upload code coverage to Codecov
         uses: codecov/codecov-action@v5.3.1
         with:
           token: ${{ secrets.CODE_COV_TOKEN }}
-          files: coverage.clover
-
-      - name: Upload Scrutinizer coverage
-        uses: sudo-bot/action-scrutinizer@latest
-        # Do not run this step on forked versions of the main repository (example: contributor forks)
-        if: github.repository == 'multidimension-al/oauth2-shopify'
-        with:
-          cli-args: "--format=php-clover coverage.clover --revision=${{ github.event.pull_request.head.sha || github.sha }}"
+          files: coverage.clover,junit.xml
