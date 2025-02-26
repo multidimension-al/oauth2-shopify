@@ -40,6 +40,9 @@ jobs:
 
       - name: Upload code coverage to Codecov
         uses: codecov/codecov-action@v5.3.1
+        with:
+          token: ${{ secrets.CODE_COV_TOKEN }}
+          files: coverage.clover
 
       - name: Upload Scrutinizer coverage
         uses: sudo-bot/action-scrutinizer@latest
