@@ -4,7 +4,7 @@
 [![Total Downloads](https://poser.pugx.org/multidimensional/oauth2-shopify/downloads)](https://packagist.org/packages/multidimensional/oauth2-shopify)
 [![License](https://poser.pugx.org/multidimensional/oauth2-shopify/license)](https://packagist.org/packages/multidimensional/oauth2-shopify)
 [![CI](https://github.com/multidimension-al/oauth2-shopify/actions/workflows/ci.yml/badge.svg)](https://github.com/multidimension-al/oauth2-shopify/actions/workflows/ci.yml)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/multidimension-al/oauth2-shopify/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/multidimension-al/oauth2-shopify/?branch=master)
+[![codecov](https://codecov.io/github/multidimension-al/oauth2-shopify/graph/badge.svg?token=AMLNRIPKAJ)](https://codecov.io/github/multidimension-al/oauth2-shopify)
 
 
 This package provides Shopify's OAuth 2.0 support for the PHP League's [OAuth 2.0 Client](https://github.com/thephpleague/oauth2-client).
